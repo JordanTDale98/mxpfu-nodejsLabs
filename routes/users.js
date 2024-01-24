@@ -36,6 +36,17 @@ router.get("/:email",(req,res)=>{
   let requested_email = users.filter((user) => user.email === email);
   res.send(requested_email);
 });
+//Get by specific last name: Retrieve all users with same last name
+router.get("/:lastName", (req, res) =>{
+    const lastName = req.params.lastName;
+    let requested_lastName = users.filter((user) => user.lastName === lastName);
+    res.send(requested_lastName);
+})
+
+//formatting the output
+router.get("/",(req,res) => {
+    res.send(JSON.stringify({users},null,4));
+});
 
 
 // POST request: Create a new user
@@ -80,8 +91,10 @@ router.put("/:email", (req, res) => {
 
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
-  // Copy the code here
-  res.send("Yet to be implemented")//This line is to be replaced with actual return value
+  const email = req.params.email;
+  users = users.filter((user) => user.email != email);
+  res.send(`User with the email  ${email} deleted.`);
+
 });
 
 module.exports=router;
